@@ -1,0 +1,39 @@
+{
+  "name": "@conga/bass-express-session",
+  "version": "1.0.0-dev",
+  "description": "Session module for express-session, using the Bass ODM as a session store.",
+  "directories": {
+    "test": "test"
+  },
+  "main": "./index.js",
+  "scripts": {
+    "test": "./node_modules/jasmine/bin/jasmine.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/congajs/bass-express-session.git"
+  },
+  "keywords": [
+    "orm",
+    "odm",
+    "bass",
+    "session",
+    "store"
+  ],
+  "author": {
+    "name": "Anthony Matarazzo",
+    "email": "email@anthonymatarazzo.com"
+  },
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "jasmine": "^2.6.0",
+    "request": "^2.81.0",
+    "express": "4.15.3",
+    "express-session": "^1.15.3",
+    "bass": "latest",
+    "bass-nedb": "latest",
+    "log4js": "1.1.1"
+  },
+  "readmeFilename": "README.md"
+}
