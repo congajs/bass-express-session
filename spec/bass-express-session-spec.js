@@ -67,7 +67,7 @@ describe("Session", () => {
             app.use(session({
                 secret: 'my-secret',
                 store: new BassStore({
-                    ttl: 300,
+                    ttl: 10,    // 10 seconds
                     bass: bass,
                     manager: 'nedb.default',
                     document: 'Session',

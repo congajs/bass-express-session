@@ -37,7 +37,7 @@ module.exports = session => class BassStore extends (session && session.Store ||
 
         this.bass = bass;
 
-        this.hasTtl = ttl === false || ttl === 0;
+        this.hasTtl = (ttl && ttl > 0) || ttl === undefined;
         this.ttl = ttl;
 
         if (typeof bass.createSession === 'function') {
