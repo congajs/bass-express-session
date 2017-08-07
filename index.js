@@ -13,7 +13,7 @@
  * @param {Object} session The express session object
  * @return {BassStore} class
  */
-module.exports = session => class BassStore extends session.Store {
+module.exports = session => class BassStore extends (session && session.Store || class { }) {
     /**
      *
      * @param {Object} options
@@ -250,31 +250,18 @@ module.exports = session => class BassStore extends session.Store {
             callback(null);
             return;
         }
+
         if (!Array.isArray(sid)) {
             sid = [sid];
         }
-        this.manager.findWhereIn(
+
+        let d = new Date();
+        d.setTime(d.getTime() + (this.getTtl(id, session) * 1000));
+
+        this.manager.updateBy(
             this.document,
-            this.sidField,
-            sid.map(id => this.psid(id))
-        ).then(documents => {
-
-            if (!documents || documents.length === 0) {
-                callback(null);
-                return;
-            }
-
-            for (let document of documents) {
-                let d = new Date();
-                d.setTime(d.getTime() + (this.getTtl(id, session) * 1000));
-
-                document[this.expireField] = d;
-
-                this.manager.persist(document);
-            }
-
-            return this.manager.flush().then(() => callback(null));
-
-        }).catch(err => callback(err));
+            {[this.sidField]: {'$in': sid.map(id => this.psid(id))}},
+            {[this.expireField]: d}
+        ).then(() => callback(null)).catch(err => callback(err));
     }
 };

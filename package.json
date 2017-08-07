@@ -1,6 +1,6 @@
 {
   "name": "@conga/bass-express-session",
-  "version": "1.0.0-dev",
+  "version": "1.0.1",
   "description": "Session module for express-session, using the Bass ODM as a session store.",
   "directories": {
     "test": "test"
