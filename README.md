@@ -39,7 +39,7 @@ session:
     store:
 
         # point the sore module to "bass-express-session"
-        module: bass-express-session
+        module: "@conga/bass-express-session"
  
         # configure the options
         options:
