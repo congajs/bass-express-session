@@ -19,6 +19,7 @@ module.exports = session => class BassStore extends (session && session.Store ||
     /**
      *
      * @param {Object} options
+     * @throws TypeError if a Bass session cannot be found or created
      */
     constructor(options) {
 
@@ -40,11 +41,22 @@ module.exports = session => class BassStore extends (session && session.Store ||
         this.ttl = ttl;
         this.hasTtl = (ttl && ttl > 0) || ttl === undefined;
 
-        this.bass = bass;
-
-        if (bass && bass.createSession instanceof Function) {
-            this.bass = bass.createSession();
+        // we want the session from bass - try to resolve it
+        let session = bass;
+        if (session instanceof Function) {
+            session = session();
         }
+        if (!session) {
+            throw new TypeError(
+                'Expecting options.bass to be an instance of Bass, Session or function returning one.');
+        }
+        if (session.createSession instanceof Function) {
+            session = session.createSession();
+        }
+        if (!(session.getManager instanceof Function)) {
+            throw new TypeError('Could not resolve a Bass Session.');
+        }
+        this.bass = session;
 
         this.manager = this.bass.getManager(manager);
 

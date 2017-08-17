@@ -43,12 +43,12 @@ session:
  
         # configure the options
         options:
-            ttl: 300                    # time to live, in seconds
-            bass: {$bass}               # reference to the bass service (or bass.createSession() instance)
-            manager: session.manager    # the bass manager to use
-            document: Session           # the document used for sessions
-            expireField: expiresAt      # the field in the document that contains the expiration date
-            dataField: data             # the field that holds all the session data
+            ttl: 300                            # time to live, in seconds
+            bass: ${bass.listener::getBass}     # reference to the bass service (or bass.createSession() instance)
+            manager: session.manager            # the bass manager to use
+            document: Session                   # the document used for sessions
+            expireField: expiresAt              # the field in the document that contains the expiration date
+            dataField: data                     # the field that holds all the session data
 ```
 
 # Install With NPM
