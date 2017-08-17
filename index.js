@@ -7,13 +7,15 @@
  * file that was distributed with this source code.
  */
 
+// core libs
+const { EventEmitter } = require('events');
 
 /**
  * express-session store module function factory
  * @param {Object} session The express session object
  * @return {BassStore} class
  */
-module.exports = session => class BassStore extends (session && session.Store || class { }) {
+module.exports = session => class BassStore extends (session && session.Store || EventEmitter) {
     /**
      *
      * @param {Object} options
@@ -35,12 +37,12 @@ module.exports = session => class BassStore extends (session && session.Store ||
 
         this.prefix = prefix === null || prefix === undefined ? 'sess' : prefix;
 
+        this.ttl = ttl;
+        this.hasTtl = (ttl && ttl > 0) || ttl === undefined;
+
         this.bass = bass;
 
-        this.hasTtl = (ttl && ttl > 0) || ttl === undefined;
-        this.ttl = ttl;
-
-        if (typeof bass.createSession === 'function') {
+        if (bass && bass.createSession instanceof Function) {
             this.bass = bass.createSession();
         }
 
