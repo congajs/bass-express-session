@@ -270,12 +270,12 @@ module.exports = session => class BassStore extends (session && session.Store ||
         }
 
         let d = new Date();
-        d.setTime(d.getTime() + (this.getTtl(id, session) * 1000));
+        d.setTime(d.getTime() + (this.getTtl(sid, session) * 1000));
 
         this.manager.updateBy(
             this.document,
             {[this.sidField]: {'$in': sid.map(id => this.psid(id))}},
-            {[this.expireField]: d}
+            {[this.expireField]: d, [this.dataField]: session}
         ).then(() => callback(null)).catch(err => callback(err));
     }
 };
